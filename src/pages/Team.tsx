@@ -5,9 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Mail, MoreVertical } from "lucide-react";
 import { useGetTeams } from "@/service/query/use-get-teams";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 export default function Team() {
-    const { data: teamMembers, isLoading, isError, error } = useGetTeams();
+    const [query, setQuery] = useState("");
+    const { data: teamMembers, isLoading, isError, error } = useGetTeams(query);
 
     return (
         <div className="space-y-6">
@@ -23,10 +26,20 @@ export default function Team() {
                         members in your team
                     </p>
                 </div>
+
                 <Button className="gap-2">
                     <Mail className="h-4 w-4" />
                     Invite Member
                 </Button>
+            </div>
+
+            <div className="border rounded-md">
+                <Input
+                    type="text"
+                    placeholder="Search Team Member"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                />
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -45,6 +58,12 @@ export default function Team() {
                             <span className="text-red-500">
                                 {error.message}
                             </span>
+                        </div>
+                    </>
+                ) : teamMembers.data.length === 0 ? (
+                    <>
+                        <div className="flex justify-center items-center">
+                            <span>No Member Found</span>
                         </div>
                     </>
                 ) : (

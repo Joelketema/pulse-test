@@ -25,7 +25,7 @@ export const GetTeams = async (query?: string) => {
     try {
         const response = apiClient({
             method: "GET",
-            url: query ? `team/search=${query}` : "team",
+            url: query ? `team?search=${query}` : "team",
         });
 
         return response;
