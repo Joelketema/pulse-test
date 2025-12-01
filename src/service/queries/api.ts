@@ -50,3 +50,15 @@ export const CreateTeam = async (data: any) => {
         console.log("error", error);
     }
 };
+export const DeleteTeamMember = async (id: number) => {
+    try {
+        const response = apiClient({
+            method: "DELETE",
+            url: `team/${id}`,
+        });
+
+        return response;
+    } catch (error) {
+        console.log("error", error);
+    }
+};

@@ -2,17 +2,23 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Mail, MoreVertical, Plus } from "lucide-react";
+import { Mail, MoreVertical, Plus, Trash2 } from "lucide-react";
 import { useGetTeams } from "@/service/query/use-get-teams";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import AddMemberModal from "@/components/modals/AddMemberModal";
+import { useDeleteTeamMember } from "@/service/mutation/use-delete-team-member";
 
 export default function Team() {
     const [query, setQuery] = useState("");
     const [open, setOpen] = useState(false);
     const { data: teamMembers, isLoading, isError, error } = useGetTeams(query);
+    const deleteMutation = useDeleteTeamMember();
+
+    const handleDelete = (id: number) => {
+        deleteMutation.mutateAsync(id);
+    };
 
     return (
         <div className="space-y-6">
@@ -94,6 +100,16 @@ export default function Team() {
                                         className="h-8 w-8"
                                     >
                                         <MoreVertical className="h-4 w-4" />
+                                    </Button>
+                                </div>
+
+                                <div className="flex justify-end">
+                                    <Button
+                                        variant="destructive"
+                                        onClick={() => handleDelete(member.id)}
+                                        disabled={deleteMutation.isPending}
+                                    >
+                                        <Trash2 />
                                     </Button>
                                 </div>
 
