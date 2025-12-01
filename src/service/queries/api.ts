@@ -33,3 +33,20 @@ export const GetTeams = async (query?: string) => {
         console.log("error", error);
     }
 };
+
+export const CreateTeam = async (data: any) => {
+    console.log("in the query", data);
+    try {
+        const response = apiClient({
+            method: "POST",
+            url: "team",
+            data: {
+                ...data,
+            },
+        });
+
+        return response;
+    } catch (error) {
+        console.log("error", error);
+    }
+};

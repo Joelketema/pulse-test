@@ -2,14 +2,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Mail, MoreVertical } from "lucide-react";
+import { Mail, MoreVertical, Plus } from "lucide-react";
 import { useGetTeams } from "@/service/query/use-get-teams";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import AddMemberModal from "@/components/modals/AddMemberModal";
 
 export default function Team() {
     const [query, setQuery] = useState("");
+    const [open, setOpen] = useState(false);
     const { data: teamMembers, isLoading, isError, error } = useGetTeams(query);
 
     return (
@@ -26,11 +28,16 @@ export default function Team() {
                         members in your team
                     </p>
                 </div>
-
-                <Button className="gap-2">
-                    <Mail className="h-4 w-4" />
-                    Invite Member
-                </Button>
+                <div className="space-x-5">
+                    <Button className="gap-2" onClick={() => setOpen(true)}>
+                        <Plus className="h-4 w-4" />
+                        Add Member
+                    </Button>
+                    <Button className="gap-2">
+                        <Mail className="h-4 w-4" />
+                        Invite Member
+                    </Button>
+                </div>
             </div>
 
             <div className="border rounded-md">
@@ -127,6 +134,8 @@ export default function Team() {
                     ))
                 )}
             </div>
+
+            <AddMemberModal open={open} setOpen={setOpen} />
         </div>
     );
 }
