@@ -21,3 +21,15 @@ export const GetProjects = async (filters: IFilter) => {
         console.log("error", error);
     }
 };
+export const GetTeams = async (query?: string) => {
+    try {
+        const response = apiClient({
+            method: "GET",
+            url: query ? `team/search=${query}` : "team",
+        });
+
+        return response;
+    } catch (error) {
+        console.log("error", error);
+    }
+};

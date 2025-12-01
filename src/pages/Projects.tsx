@@ -31,9 +31,9 @@ export default function Projects() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const appliedFilters = {
-        status: searchParams.get("status"),
-        priority: searchParams.get("priority"),
-        search: searchParams.get("search"),
+        status: searchParams.get("status") || "",
+        priority: searchParams.get("priority") || "",
+        search: searchParams.get("search") || "",
     };
 
     const [filters, setFilters] = useState(appliedFilters);
@@ -43,12 +43,6 @@ export default function Projects() {
     }, [searchParams]);
 
     console.log(appliedFilters);
-
-    const cleandFilters = {
-        search: appliedFilters.search || "",
-        priority: appliedFilters.priority || "",
-        status: appliedFilters.status || "",
-    };
 
     const { data, isLoading, isError, error } = useGetProjects(appliedFilters);
 
@@ -62,8 +56,6 @@ export default function Projects() {
         setSearchParams(params);
         setIsSheetOpen(false);
     };
-
-    console.log(isError, error);
 
     const resetFilters = () => {
         setFilters({
