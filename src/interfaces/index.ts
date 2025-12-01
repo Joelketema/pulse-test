@@ -5,3 +5,9 @@ export interface ApiClient<T> {
     url: string;
     data?: T;
 }
+
+export interface IFilter {
+    status: string;
+    priority: string;
+    search: string;
+}
